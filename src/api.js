@@ -21,4 +21,6 @@ api.get('/', (req, res) => {
   });
 });
 
+// TODO: endpoints for auth, user,..
+
 export default api;

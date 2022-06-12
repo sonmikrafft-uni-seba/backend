@@ -1,6 +1,6 @@
 "use strict";
 
-import mongoose from mongoose
+import mongoose from mongoose;
 const { Schema } = mongoose;
 
 
@@ -18,6 +18,7 @@ const TransactionSchema  = new Schema({
     transactionType: ['MANUAL', 'INCOMING', 'OUTGOING'],
     verified: Boolean,
     transactionViewed: Boolean,
+    userId: Schema.Types.ObjectId,
     bankAccountId: Schema.Types.ObjectId,
     categoryId: {
         type: Schema.Types.ObjectId,
