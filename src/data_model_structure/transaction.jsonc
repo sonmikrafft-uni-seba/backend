@@ -1,0 +1,15 @@
+// transaction.json
+{
+    "_id": "507f191e810c19729de860ed",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 20.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Jane Mustermann",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "Incoming",
+    "verified": true,
+    "transactionViewed": false,
+    "bankID": "507f191e810c19729de860eb",
+    "categoryID": "507f191e810c19729de860f2"
+}
