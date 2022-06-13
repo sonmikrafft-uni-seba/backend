@@ -6,6 +6,9 @@ import helmet from 'helmet';
 
 import middlewares from './middleware.js';
 
+import auth from './routes/auth';
+import user from './routes/user';
+
 const api = express();
 
 // Adding Basic Middlewares
@@ -21,6 +24,8 @@ api.get('/', (req, res) => {
   });
 });
 
-// TODO: endpoints for auth, user,..
+// API routes
+api.use('/auth', auth);
+api.use('/user', user);
 
 export default api;
