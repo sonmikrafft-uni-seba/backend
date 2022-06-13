@@ -1,11 +1,11 @@
 "use strict";
 
 import mongoose from mongoose;
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
 
 
 // Define the User schema
-const UserSchema  = new Schema({
+const UserSchema = new Schema({
     firstName: {
         type: String,
         required: true
@@ -40,28 +40,28 @@ const UserBank = new Schema({
 });
 
 const BankAccount = new Schema({
-   label: String,
-   metaData: Object,
-   accesstoken: String
+    name: String,
+    metaData: Object,
+    accesstoken: String
 });
 
 const CategoryGroup = new Schema({
-   title: {
-    type: String,
-    required: true
-   },
-   budgetType: ['MONTHLY', 'YEARLY'],
-   budgetLimit: Number,
-   categories: [Category]
+    name: {
+        type: String,
+        required: true
+    },
+    budgetType: ['NONE', 'MONTHLY', 'YEARLY'],
+    budgetLimit: Number,
+    categories: [Category]
 });
 
 const Category = new Schema({
-    title: {
+    name: {
         type: String,
         required: true
     },
     conditionalFilter: String,
-    budgetType: ['MONTHLY', 'YEARLY'],
+    budgetType: ['NONE', 'MONTHLY', 'YEARLY'],
     budgetLimit: Number,
 });
 
@@ -69,4 +69,4 @@ UserSchema.set('versionKey', false);
 
 
 // Export the User model
-module.exports = mongoose.model('User', UserSchema);
+module.exports = model('User', UserSchema);
