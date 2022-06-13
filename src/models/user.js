@@ -2,6 +2,8 @@
 
 import mongoose from mongoose;
 const { Schema, model } = mongoose;
+import { SubscriptionPlan } from './enums/subscriptionPlan.ts';
+import { BudgetType } from './enums/budgetType.ts';
 
 
 // Define the User schema
@@ -18,7 +20,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    subscriptionPlan: ['FREE', 'PREMIUM'],
+    subscriptionPlan: SubscriptionPlan,
     password: {
         type: String,
         required: true
@@ -50,7 +52,7 @@ const CategoryGroup = new Schema({
         type: String,
         required: true
     },
-    budgetType: ['NONE', 'MONTHLY', 'YEARLY'],
+    budgetType: BudgetType,
     budgetLimit: Number,
     categories: [Category]
 });
@@ -61,7 +63,7 @@ const Category = new Schema({
         required: true
     },
     conditionalFilter: String,
-    budgetType: ['NONE', 'MONTHLY', 'YEARLY'],
+    budgetType: BudgetType,
     budgetLimit: Number,
 });
 

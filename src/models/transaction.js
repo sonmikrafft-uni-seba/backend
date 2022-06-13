@@ -2,6 +2,8 @@
 
 import mongoose from mongoose;
 const { Schema, model } = mongoose;
+import { TransactionType } from './enums/transactionType.ts'
+import { TransactionCurrency } from './enums/transactionCurrency.ts';
 
 
 // Define the transaction schema
@@ -12,10 +14,10 @@ const TransactionSchema  = new Schema({
         type: Number,
         required: true
     },
-    transactionCurrency: ['EUR'],
+    transactionCurrency: TransactionCurrency,
     transactionPartnerName: String,
     remittanceInformation: String,
-    transactionType: ['MANUAL', 'INCOMING', 'OUTGOING'],
+    transactionType: TransactionType,
     verified: Boolean,
     transactionViewed: Boolean,
     userId: {
