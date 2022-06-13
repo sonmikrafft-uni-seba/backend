@@ -12,7 +12,7 @@ const TransactionSchema  = new Schema({
         type: Number,
         required: true
     },
-    transactionCurrency: String,
+    transactionCurrency: ['EUR'],
     transactionPartnerName: String,
     remittanceInformation: String,
     transactionType: ['MANUAL', 'INCOMING', 'OUTGOING'],
