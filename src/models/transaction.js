@@ -2,8 +2,8 @@
 
 import mongoose from mongoose;
 const { Schema, model } = mongoose;
-import { TransactionType } from './enums/transactionType.ts'
-import { TransactionCurrency } from './enums/transactionCurrency.ts';
+import { TransactionType } from './constants.js';
+import { TransactionCurrency } from './constants.js';
 
 
 // Define the transaction schema
@@ -20,12 +20,12 @@ const TransactionSchema  = new Schema({
     transactionType: TransactionType,
     verified: Boolean,
     transactionViewed: Boolean,
-    userId: {
+    userID: {
         type: Schema.Types.ObjectId,
         required: true
     },
-    bankAccountId: Schema.Types.ObjectId,
-    categoryId: {
+    bankAccountID: Schema.Types.ObjectId,
+    categoryID: {
         type: Schema.Types.ObjectId,
         required: true
     },

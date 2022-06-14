@@ -2,8 +2,8 @@
 
 import mongoose from mongoose;
 const { Schema, model } = mongoose;
-import { SubscriptionPlan } from './enums/subscriptionPlan.ts';
-import { BudgetType } from './enums/budgetType.ts';
+import { SubscriptionPlan } from './constants.js';
+import { BudgetType } from './constants.js';
 
 
 // Define the User schema
@@ -34,8 +34,8 @@ const UserSchema = new Schema({
 });
 
 const UserBank = new Schema({
-    requisitionId: String,
-    institutionId: String,
+    requisitionID: String,
+    institutionID: String,
     name: String,
     metaData: Object,
     bankaccounts: [BankAccount]

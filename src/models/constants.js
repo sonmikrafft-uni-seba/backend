@@ -1,0 +1,22 @@
+
+const BUDGETTYPE = {
+    MONTHLY: 'MONTHLY',
+    YEARLY: 'YEARLY',
+    NONE: 'NONE'
+    }
+
+const SUBSCRIPTIONPLAN = {
+    FREE: 'FREE',
+    PREMIUM: 'PREMIUM'
+    }
+
+const TRANSACTIONCURRENCY = {
+    EUR: 'EURO'
+    }
+
+const TRANSACTIONTYPE = {
+    MANUAL: 'MANUAL',
+    INCOMING: 'INCOMING',
+    OUTGOING: 'OUTGOING'
+    }
+
