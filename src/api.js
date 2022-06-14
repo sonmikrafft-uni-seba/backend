@@ -6,9 +6,9 @@ import helmet from 'helmet';
 
 import middlewares from './middleware.js';
 
-import auth from './routes/auth';
-import user from './routes/user';
-import transaction from './routes/user/transaction'
+import auth from './routes/auth.js';
+import user from './routes/user.js';
+import transaction from './routes/transaction.js'
 
 const api = express();
 

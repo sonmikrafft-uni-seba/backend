@@ -1,7 +1,7 @@
 "use strict";
 
 import mongoose from 'mongoose';
-const { Schema, model } = 'mongoose';
+const { Schema, model } = mongoose;
 import { TransactionType } from './constants.js';
 import { TransactionCurrency } from './constants.js';
 
@@ -14,25 +14,25 @@ const TransactionSchema  = new Schema({
         type: Number,
         required: true
     },
-    transactionCurrency: TransactionCurrency,
+    transactionCurrency: Object.values(TransactionCurrency),
     transactionPartnerName: String,
     remittanceInformation: String,
-    transactionType: TransactionType,
+    transactionType: Object.values(TransactionType),
     verified: Boolean,
     transactionViewed: Boolean,
     userID: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.ObjectId,
         required: true
     },
-    bankAccountID: Schema.Types.ObjectId,
+    bankAccountID: mongoose.ObjectId,
     categoryID: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.ObjectId,
         required: true
-    },
+    }
 });
 
 TransactionSchema.set('versionKey', false);
 
 
 // Export the Transaction model
-module.exports = model('Transaction', TransactionSchema);
+export default model('Transaction', TransactionSchema);

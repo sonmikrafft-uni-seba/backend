@@ -1,22 +1,28 @@
 
-const BUDGETTYPE = {
+const BudgetType = {
     MONTHLY: 'MONTHLY',
     YEARLY: 'YEARLY',
     NONE: 'NONE'
     }
 
-const SUBSCRIPTIONPLAN = {
+const SubscriptionPlan = {
     FREE: 'FREE',
     PREMIUM: 'PREMIUM'
     }
 
-const TRANSACTIONCURRENCY = {
+const TransactionCurrency = {
     EUR: 'EURO'
     }
 
-const TRANSACTIONTYPE = {
+const TransactionType = {
     MANUAL: 'MANUAL',
     INCOMING: 'INCOMING',
     OUTGOING: 'OUTGOING'
     }
 
+export {
+    BudgetType,
+    SubscriptionPlan,
+    TransactionCurrency,
+    TransactionType
+}

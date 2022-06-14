@@ -5,8 +5,45 @@ const { Schema, model } = mongoose;
 import { SubscriptionPlan } from './constants.js';
 import { BudgetType } from './constants.js';
 
+// Define Schema for BankAccount
+const BankAccount = new Schema({
+    name: String,
+    metaData: Object,
+    accesstoken: String
+});
 
-// Define the User schema
+// Define Schema for UserBank
+const UserBank = new Schema({
+    requisitionID: String,
+    institutionID: String,
+    name: String,
+    metaData: Object,
+    bankaccounts: [BankAccount]
+});
+
+// Define Schema for Category
+const Category = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    conditionalFilter: String,
+    budgetType: Object.values(BudgetType),
+    budgetLimit: Number,
+});
+
+// Define Schema for CategoryGroup
+const CategoryGroup = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    budgetType: Object.values(BudgetType),
+    budgetLimit: Number,
+    categories: [Category]
+});
+
+// Define Schema for User
 const UserSchema = new Schema({
     firstName: {
         type: String,
@@ -20,7 +57,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    subscriptionPlan: SubscriptionPlan,
+    subscriptionPlan: Object.values(SubscriptionPlan),
     password: {
         type: String,
         required: true
@@ -33,42 +70,8 @@ const UserSchema = new Schema({
     categoryGroups: [CategoryGroup]
 });
 
-const UserBank = new Schema({
-    requisitionID: String,
-    institutionID: String,
-    name: String,
-    metaData: Object,
-    bankaccounts: [BankAccount]
-});
-
-const BankAccount = new Schema({
-    name: String,
-    metaData: Object,
-    accesstoken: String
-});
-
-const CategoryGroup = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    budgetType: BudgetType,
-    budgetLimit: Number,
-    categories: [Category]
-});
-
-const Category = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    conditionalFilter: String,
-    budgetType: BudgetType,
-    budgetLimit: Number,
-});
-
 UserSchema.set('versionKey', false);
 
 
 // Export the User model
-module.exports = model('User', UserSchema);
+export default model('User', UserSchema);

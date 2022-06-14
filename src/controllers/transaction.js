@@ -1,6 +1,6 @@
 "use strict";
 
-import UserModel from '../models/user.js';
+import TransactionModel from '../models/transaction.js';
 
 
 const create = async (req, res) => {

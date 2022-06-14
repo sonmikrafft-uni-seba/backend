@@ -1,9 +1,5 @@
 "use strict";
 
-import jwt from jsonwebtoken;
-import bcrypt from bcryptjs;
-
-import config from '../config';
 // import AuthModel...
 
 
@@ -15,7 +11,7 @@ const logout = (req, res) => {
 };
 
 
-module.exports = {
+export default {
     login,
     logout
 };
