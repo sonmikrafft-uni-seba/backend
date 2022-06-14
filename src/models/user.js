@@ -1,6 +1,6 @@
 "use strict";
 
-import mongoose from mongoose;
+import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 import { SubscriptionPlan } from './constants.js';
 import { BudgetType } from './constants.js';

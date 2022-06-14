@@ -1,7 +1,7 @@
 "use strict";
 
-import mongoose from mongoose;
-const { Schema, model } = mongoose;
+import mongoose from 'mongoose';
+const { Schema, model } = 'mongoose';
 import { TransactionType } from './constants.js';
 import { TransactionCurrency } from './constants.js';
 
