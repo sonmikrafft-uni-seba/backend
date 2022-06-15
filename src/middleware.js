@@ -2,7 +2,7 @@
 
 import jwt from 'jsonwebtoken';
 
-import config from './config.js';
+import { jwtSecret } from './config.js';
 
 const allowCrossDomain = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -31,7 +31,7 @@ const checkAuthentication = (req, res, next) => {
     });
 
   // verifies secret and checks exp
-  jwt.verify(token, config.jwtSecret, (err, decoded) => {
+  jwt.verify(token, jwtSecret, (err, decoded) => {
     if (err)
       return res.status(401).send({
         error: 'Unauthorized',
