@@ -22,7 +22,7 @@ mongoose
   });
 
 server.on('listening', () => {
-  console.log(`API is running in port ${config.port}`);
+  console.log(`API is running on port ${config.port}`);
 });
 
 server.on('error', (err) => {
