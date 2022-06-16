@@ -37,9 +37,10 @@ const login = async (req, res) => {
     );
 
     if (!isPasswordValid)
-      return res
-        .status(HTTP_ERROR_TYPE_NUMBER.UNAUTHORIZED)
-        .send({ token: null });
+      return res.status(HTTP_ERROR_TYPE_NUMBER.UNAUTHORIZED).json({
+        error: HTTP_ERROR_TYPE.UNAUTHORIZED,
+        message: HTTP_ERROR_RESPONSE.USER_CREDS_WRONG,
+      });
 
     // if user is found and password is valid
     // create a token
@@ -67,6 +68,7 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
+  // not used, client deletes own token
   res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).send({ token: null });
 };
 

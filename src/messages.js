@@ -20,6 +20,8 @@ const HTTP_ERROR_RESPONSE = {
   MISSING_FIRSTNAME: 'The request body must contain a firstname property.',
   MISSING_LASTNAME: 'The request body must contain a lastname property.',
   USER_ALREADY_EXISTS: 'A user with this email already exists.',
+  USER_CREDS_WRONG: 'The email or password is wrong.',
+  INTERNAL_SERVER_ERROR: 'Internal Server Error.',
 };
 
 export { HTTP_ERROR_RESPONSE, HTTP_ERROR_TYPE, HTTP_ERROR_TYPE_NUMBER };

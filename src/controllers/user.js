@@ -82,12 +82,14 @@ const create = async (req, res) => {
 
     // return generated token
     res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json({
+      user: retUser,
       token: token,
     });
   } catch (err) {
+    console.log(err);
     return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
-      error: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
-      message: err.message,
+      error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
+      message: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
     });
   }
 };
