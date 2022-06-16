@@ -37,6 +37,17 @@ const create = async (req, res) => {
       message: HTTP_ERROR_RESPONSE.MISSING_LASTNAME,
     });
 
+  let existingUser = await UserModel.findOne({
+    email: req.body.email,
+  }).exec();
+
+  if (existingUser) {
+    return res.status(HTTP_ERROR_TYPE_NUMBER.BAD_REQUEST).json({
+      error: HTTP_ERROR_TYPE.USER_EXISTS,
+      message: HTTP_ERROR_RESPONSE.USER_ALREADY_EXISTS,
+    });
+  }
+
   // handle the request
   try {
     // hash the password before storing it in the database
@@ -74,17 +85,10 @@ const create = async (req, res) => {
       token: token,
     });
   } catch (err) {
-    if (err.code == 11000) {
-      return res.status(HTTP_ERROR_TYPE_NUMBER.BAD_REQUEST).json({
-        error: HTTP_ERROR_TYPE.USER_EXISTS,
-        message: err.message,
-      });
-    } else {
-      return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
-        error: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
-        message: err.message,
-      });
-    }
+    return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
+      error: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    });
   }
 };
 

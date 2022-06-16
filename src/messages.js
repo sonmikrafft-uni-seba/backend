@@ -15,10 +15,11 @@ const HTTP_ERROR_TYPE_NUMBER = {
 };
 
 const HTTP_ERROR_RESPONSE = {
-  MISSING_PW: 'The request body must contain a password property',
-  MISSING_MAIL: 'The request body must contain a email property',
-  MISSING_FIRSTNAME: 'The request body must contain a firstname property',
-  MISSING_LASTNAME: 'The request body must contain a lastname property',
+  MISSING_PW: 'The request body must contain a password property.',
+  MISSING_MAIL: 'The request body must contain a email property.',
+  MISSING_FIRSTNAME: 'The request body must contain a firstname property.',
+  MISSING_LASTNAME: 'The request body must contain a lastname property.',
+  USER_ALREADY_EXISTS: 'A user with this email already exists.',
 };
 
 export { HTTP_ERROR_RESPONSE, HTTP_ERROR_TYPE, HTTP_ERROR_TYPE_NUMBER };
