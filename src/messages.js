@@ -19,8 +19,10 @@ const HTTP_ERROR_RESPONSE = {
   MISSING_MAIL: 'The request body must contain a email property.',
   MISSING_FIRSTNAME: 'The request body must contain a firstname property.',
   MISSING_LASTNAME: 'The request body must contain a lastname property.',
+  EMPTY_REQ_BODY: 'The request body is empty',
   USER_ALREADY_EXISTS: 'A user with this email already exists.',
   USER_CREDS_WRONG: 'The email or password is wrong.',
+  USER_NOT_FOUND: 'A user with this ID could not be found',
   INTERNAL_SERVER_ERROR: 'Internal Server Error.',
 };
 

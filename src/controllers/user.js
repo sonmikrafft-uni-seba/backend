@@ -11,6 +11,9 @@ import { SubscriptionPlan } from '../models/constants.js';
 import { jwtSecret, jwtLifeTime } from '../config.js';
 import UserModel from '../models/user.js';
 
+/**
+ * Create new user in database
+ */
 const create = async (req, res) => {
   // check if the body of the request contains all necessary properties
   if (!Object.prototype.hasOwnProperty.call(req.body, 'password'))
@@ -94,21 +97,103 @@ const create = async (req, res) => {
   }
 };
 
-const read = async (req, res) => {};
+/**
+ * returns a user with specific id from database
+ */
+const read = async (req, res) => {
+  try {
+    let wantedUser = await UserModel.findById(req.params.id).exec();
 
-const update = async (req, res) => {};
+    // check if user with the given id exists
+    if (!wantedUser) {
+      return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
+        error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
+        message: HTTP_ERROR_RESPONSE.USER_NOT_FOUND,
+      });
+    }
 
-const remove = async (req, res) => {};
+    // return user with the given id
+    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(wantedUser);
+  } catch (err) {
+    console.log(err);
+    return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
+      error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
+      message: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
 
+/**
+ * updates a user's properties in database
+ */
+const update = async (req, res) => {
+  if (Object.keys(req.body).length === 0) {
+    return res.status(HTTP_ERROR_TYPE_NUMBER.BAD_REQUEST).json({
+      error: HTTP_ERROR_TYPE.BAD_REQUEST,
+      message: HTTP_ERROR_RESPONSE.EMPTY_REQ_BODY,
+    });
+  }
+
+  try {
+    let updatedUser = await UserModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).exec();
+
+    // check if user with the given id exists
+    if (!updatedUser) {
+      return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
+        error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
+        message: HTTP_ERROR_RESPONSE.USER_NOT_FOUND,
+      });
+    }
+
+    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(updatedUser);
+  } catch (err) {
+    console.log(err);
+    return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
+      error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
+      message: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+/**
+ * deletes a user in database
+ */
+const remove = async (req, res) => {
+  try {
+    await UserModel.findByIdAndRemove(req.params.id).exec();
+
+    return res
+      .status(HTTP_ERROR_TYPE_NUMBER.SUCCESS)
+      .json({ message: `User with id${req.params.id} was deleted` });
+  } catch (err) {
+    console.log(err);
+    return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
+      error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
+      message: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+/**
+ * returns a list of all users in database
+ */
 const list = async (req, res) => {
   try {
     let users = await UserModel.find({}).exec();
 
-    return res.status(200).json(movies);
+    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(users);
   } catch (err) {
-    return res.status(500).json({
-      error: 'Internal server error',
-      message: err.message,
+    console.log(err);
+    return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
+      error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
+      message: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
     });
   }
 };
