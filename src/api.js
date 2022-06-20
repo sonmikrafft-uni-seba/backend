@@ -8,7 +8,7 @@ import middlewares from './middleware.js';
 
 import auth from './routes/auth.js';
 import user from './routes/user.js';
-import transaction from './routes/transaction.js'
+import transaction from './routes/transaction.js';
 
 const api = express();
 
@@ -28,6 +28,6 @@ api.get('/', (req, res) => {
 // API routes
 api.use('/auth', auth);
 api.use('/user', user);
-api.use('/user/transaction', transaction)
+api.use('/user', transaction);
 
 export default api;
