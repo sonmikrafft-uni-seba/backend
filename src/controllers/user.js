@@ -12,7 +12,7 @@ import { jwtSecret, jwtLifeTime } from '../config.js';
 import UserModel from '../models/user.js';
 
 /**
- * Create new user in database
+ * Create a new user in database
  */
 const create = async (req, res) => {
   // check if the body of the request contains all necessary properties
@@ -98,7 +98,7 @@ const create = async (req, res) => {
 };
 
 /**
- * returns a user with specific id from database
+ * Return a user with specific id from database
  */
 const read = async (req, res) => {
   try {
@@ -124,7 +124,7 @@ const read = async (req, res) => {
 };
 
 /**
- * updates a user's properties in database
+ * Update a user's properties in database
  */
 const update = async (req, res) => {
   if (Object.keys(req.body).length === 0) {
@@ -163,7 +163,7 @@ const update = async (req, res) => {
 };
 
 /**
- * deletes a user in database
+ * Delete a user in database
  */
 const remove = async (req, res) => {
   try {
@@ -171,7 +171,7 @@ const remove = async (req, res) => {
 
     return res
       .status(HTTP_ERROR_TYPE_NUMBER.SUCCESS)
-      .json({ message: `User with id${req.params.id} was deleted` });
+      .json({ message: `User with id:${req.params.id} was deleted` });
   } catch (err) {
     console.log(err);
     return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
@@ -182,7 +182,7 @@ const remove = async (req, res) => {
 };
 
 /**
- * returns a list of all users in database
+ * Return a list of all users in database
  */
 const list = async (req, res) => {
   try {
