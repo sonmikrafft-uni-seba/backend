@@ -22,6 +22,7 @@ const HTTP_ERROR_RESPONSE = {
   MISSING_LASTNAME: 'The request body must contain a lastname property.',
   MISSING_TRANSACTION_AMOUNT:
     'The request body must contain a transaction amount property.',
+  MISSING_TRANSACTION_TYPE: 'The request body must contain a transaction type.',
   MISSING_CATEGORY_ID: 'The request body must contain a category ID property.',
   EMPTY_REQ_BODY: 'The request body is empty',
   USER_ALREADY_EXISTS: 'A user with this email already exists.',

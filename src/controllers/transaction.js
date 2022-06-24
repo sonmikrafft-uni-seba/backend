@@ -26,6 +26,12 @@ const create = async (req, res) => {
       message: HTTP_ERROR_RESPONSE.MISSING_CATEGORY_ID,
     });
 
+  if (!Object.prototype.hasOwnProperty.call(req.body, 'transactionType'))
+    return res.status(HTTP_ERROR_TYPE_NUMBER.BAD_REQUEST).json({
+      error: HTTP_ERROR_TYPE.BAD_REQUEST,
+      message: HTTP_ERROR_RESPONSE.MISSING_TRANSACTION_TYPE,
+    });
+
   try {
     let user = await UserModel.findById(req.params.userId).exec();
 
@@ -37,28 +43,61 @@ const create = async (req, res) => {
       });
     }
 
-    console.log('found user');
+    // TODO: check that bank account exists
+    // TODO: check that category exists
 
     // create transaction object
-    const transaction = {
-      bookingDate: req.body.bookingDate,
-      valueDate: req.body.valueDate,
+    let transaction = {
       transactionAmount: req.body.transactionAmount,
       transactionCurrency: TransactionCurrency.EUR,
-      transactionPartnerName: req.body.transactionPartnerName,
-      remittanceInformation: req.body.remittanceInformation,
-      transactionType: TransactionType.MANUAL,
-      verified: true,
-      transactionViewed: true,
+      transactionType: req.body.transactionType,
       userID: req.params.userId,
-      bankAccountID: req.body.bankAccountID,
       categoryID: req.body.categoryID,
     };
 
+    if (Object.prototype.hasOwnProperty.call(req.body, 'bookingDate')) {
+      transaction['bookingDate'] = req.body.bookingDate;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(req.body, 'valueDate')) {
+      transaction['valueDate'] = req.body.valueDate;
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(req.body, 'transactionPartnerName')
+    ) {
+      transaction['transactionPartnerName'] = req.body.transactionPartnerName;
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(req.body, 'remittanceInformation')
+    ) {
+      transaction['remittanceInformation'] = req.body.remittanceInformation;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(req.body, 'transactionViewed')) {
+      transaction['transactionViewed'] = req.body.transactionViewed;
+    } else {
+      // automatically set to true if manual transaction
+      if (transaction.transactionType == TransactionType.MANUAL) {
+        transaction['transactionViewed'] = true;
+      }
+    }
+
+    if (Object.prototype.hasOwnProperty.call(req.body, 'verified')) {
+      transaction['verified'] = req.body.verified;
+    } else {
+      // automatically set to true if manual transaction
+      transaction['verified'] =
+        transaction.transactionType == TransactionType.MANUAL;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(req.body, 'bankAccountID')) {
+      transaction['bankAccountID'] = req.body.bankAccountID;
+    }
+
     // create transaction in database
     let newTransaction = await TransactionModel.create(transaction);
-
-    console.log('created transaction');
 
     return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(newTransaction);
   } catch (err) {
