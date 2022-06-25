@@ -6,6 +6,10 @@ import helmet from 'helmet';
 
 import middlewares from './middleware.js';
 
+import auth from './routes/auth.js';
+import user from './routes/user.js';
+import transaction from './routes/transaction.js';
+
 const api = express();
 
 // Adding Basic Middlewares
@@ -16,9 +20,14 @@ api.use(middlewares.allowCrossDomain);
 
 // Basic route
 api.get('/', (req, res) => {
-    res.json({
-        name: 'SEBA Master Movie Backend',
-    });
+  res.json({
+    name: 'SEBA Master Budgetly Backend',
+  });
 });
+
+// API routes
+api.use('/auth', auth);
+api.use('/user', user);
+api.use('/user', transaction);
 
 export default api;
