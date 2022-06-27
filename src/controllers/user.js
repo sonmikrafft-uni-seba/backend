@@ -10,6 +10,7 @@ import {
 import { SubscriptionPlan } from '../models/constants.js';
 import { jwtSecret, jwtLifeTime } from '../config.js';
 import UserModel from '../models/user.js';
+import { getDefaultBankAccount, getDefaultCategoryGroup } from './utils.js';
 
 /**
  * Create a new user in database
@@ -64,6 +65,8 @@ const create = async (req, res) => {
       email: req.body.email,
       password: hashedPassword,
       subscriptionPlan: SubscriptionPlan.FREE,
+      categoryGroups: [getDefaultCategoryGroup()],
+      userBanks: [{ bankaccounts: [getDefaultBankAccount()] }],
     };
 
     // create the user in the database
