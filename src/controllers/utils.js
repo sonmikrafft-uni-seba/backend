@@ -3,7 +3,7 @@
 import mongoose from 'mongoose';
 
 export const getDefaultCategoryGroup = () => {
-  const name = 'Uncategorized';
+  const name = 'No Group';
   return { name: name, categories: [getDefaultCategory()] };
 };
 
