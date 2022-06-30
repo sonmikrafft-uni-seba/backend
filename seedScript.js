@@ -270,9 +270,245 @@ const users = [
     })
 ]
 
+//mock transactions
+const transactions = [
+//Tim Tests Transactions
+new Transaction({
+    "_id": "62bd9f4d38f13ab8469ba925",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 20.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Burger King München",
+    "transactionType": "MANUAL",
+    "verified": true,
+    "transactionViewed": true,
+    "categoryID": "62bd8c0c875450c9604cb25e",
+    "userID": "62baf1eb03e5955e3b4b21cc"
+}),
+new Transaction({
+    "_id": "62bda07ba58b2eb1e9e0b846",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 15.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "McDonalds München",
+    "transactionType": "MANUAL",
+    "verified": true,
+    "transactionViewed": true,
+    "categoryID": "62bd8c0c875450c9604cb25e",
+    "userID": "62baf1eb03e5955e3b4b21cc"
+}),
+new Transaction({
+    "_id": "62bda0c4ab07e58676d81a5c",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 7.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Mensa München",
+    "transactionType": "MANUAL",
+    "verified": true,
+    "transactionViewed": true,
+    "categoryID": "62bd8c0c875450c9604cb25e",
+    "userID": "62baf1eb03e5955e3b4b21cc"
+}),
+new Transaction({
+    "_id": "62bda0ed6413ff8e89bddc0b",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 25.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Aldi München",
+    "transactionType": "MANUAL",
+    "verified": true,
+    "transactionViewed": true,
+    "categoryID": "62bd8c03be63fe6d00b26986",
+    "userID": "62baf1eb03e5955e3b4b21cc"
+}),
+new Transaction({
+    "_id": "62bda116c2bf166e48f32039",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 30.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Rewe München",
+    "transactionType": "MANUAL",
+    "verified": true,
+    "transactionViewed": true,
+    "categoryID": "62bd8c03be63fe6d00b26986",
+    "userID": "62baf1eb03e5955e3b4b21cc"
+}),
+new Transaction({
+    "_id": "62bda1479fef123df6a53e10",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 90.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Campus Cneipe Garching",
+    "transactionType": "MANUAL",
+    "verified": true,
+    "transactionViewed": true,
+    "categoryID": "62bd8c238f5778e56abd511c",
+    "userID": "62baf1eb03e5955e3b4b21cc"
+}),
+//Mia Musters Transactions
+new Transaction({
+    "_id": "62bda20b6c6a1b6ce881594b",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 40.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Lieferando",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "507f191e810c19729de860f2",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bda2a7daa2cb5bbb7b356c",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 40.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Lieferando",
+    "remittanceInformation": "Invoice #11579",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "507f191e810c19729de860f2",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bda30a549badd8c2442ea7",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 5.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Kaffee Kübel",
+    "remittanceInformation": "Invoice #12579",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": true,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8ca571f81449e0fc7f4a",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bda317c2265fb255e69018",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 5.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Kaffee Krause",
+    "remittanceInformation": "Invoice #1379",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": true,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8ca571f81449e0fc7f4a",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bda357f2bc2b8491ec71d3",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 55.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Steam",
+    "remittanceInformation": "Last of Us 5",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8cc36b93d726fdb91cf3",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+//Felix Filler Transactions
+new Transaction({
+    "_id": "62bda41a5d292ed22341ad47",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 300.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Hotel Husten",
+    "remittanceInformation": "Room 66",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8d0dbf082bd92be27cae",
+    "categoryID": "62bd8d5487b43c372a6ed08f",
+    "userID": "62bb6167a4c266ad409f7248"
+}),
+new Transaction({
+    "_id": "62bda499a3e91b4018bba6ff",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 350.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Hotel Hallo",
+    "remittanceInformation": "Room 587",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": true,
+    "bankAccountID": "62bd8d20b82533dca206e9cb",
+    "categoryID": "62bd8d5487b43c372a6ed08f",
+    "userID": "62bb6167a4c266ad409f7248"
+}),
+new Transaction({
+    "_id": "62bda4d04e1e62973cad0d6f",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 20.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Netflix",
+    "remittanceInformation": "Besser Streamen",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": true,
+    "bankAccountID": "62bd8d20b82533dca206e9cb",
+    "categoryID": "62bd8d6a9930dabac38785d8",
+    "userID": "62bb6167a4c266ad409f7248"
+}),
+new Transaction({
+    "_id": "62bda50a428dee39783041b5",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 23.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Disney Plus",
+    "remittanceInformation": "Besser Streamen",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": true,
+    "bankAccountID": "62bd8d20b82533dca206e9cb",
+    "categoryID": "62bd8d6a9930dabac38785d8",
+    "userID": "62bb6167a4c266ad409f7248"
+}),
+new Transaction({
+    "_id": "62bda5527ec3f5532044b692",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 10.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Spotify",
+    "remittanceInformation": "Besser Streamen",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": true,
+    "bankAccountID": "62bd8d20b82533dca206e9cb",
+    "categoryID": "62bd8d6a9930dabac38785d8",
+    "userID": "62bb6167a4c266ad409f7248"
+}),
+]
+
 
 //skript
 let doneUser = 0;
+let doneTransaction = 0;
 
 export const seedData = async () => {
   try {
@@ -282,6 +518,13 @@ export const seedData = async () => {
         doneUser++;
       });
     }
+
+    await Transaction.deleteMany({});
+    for (let i = 0; i < transactions.length; i++) {
+        transactions[i].save(function (err, result) {
+          doneTransaction++;
+        });
+      }
 
   } catch (err) {
     console.error(err);
