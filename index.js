@@ -2,7 +2,6 @@
 
 import http from 'http';
 import mongoose from 'mongoose';
-import { seedData } from './seedScript.js';
 
 import api from './src/api.js';
 import { mongoURI, port } from './src/config.js';
@@ -21,9 +20,6 @@ mongoose
     console.log('Error connecting to the database', err.message);
     process.exit(err.statusCode);
   });
-
-//Seed mock data from seedScript
-seedData();
 
 server.on('listening', () => {
   console.log(`API is running on port ${port}`);

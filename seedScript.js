@@ -1,7 +1,10 @@
 
 import User from "./src/models/user.js";
 import Transaction from "./src/models/transaction.js";
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import http from 'http';
+import api from './src/api.js';
+import { mongoURI, port } from './src/config.js';
 
 //3 mock users
 const users = [
@@ -15,8 +18,25 @@ const users = [
         "FREE"
     ],
     "password": "$2a$10$cXwkTyOJWpPcucg8mZPyk.clm97Z9RsDAaIFWhTg12wqOerdg7dZO",
-    "userBanks": [],
+    "userBanks": [{
+        "_id": "62beae73ca99591537ad38a4",
+        "name": "Cash",
+        "metaData": {},
+        "bankAccounts":[{
+            "_id": "62beae808a0e08dec84728a2",
+            "label": "Cash",
+            "metaData": {},
+            "accessToken": "TOKEN_1"
+        }]
+    }],
     "categoryGroups":[{
+        "_id": "62beac362c72118d0639de28",
+        "name": "No Group",
+        "categories":[{
+            "_id": "62beac4282a4345447da0c07",
+            "name": "Uncategorized"
+        }]
+    },{
         "_id": "62bd8bae53a4879ce56d904b",
         "name": "Food",
         "budgetType": "Monthly",
@@ -30,13 +50,13 @@ const users = [
         },{
             "_id": "62bd8c03be63fe6d00b26986",
             "name": "Supermarket",
-            "conditionalFilter": "Aldi, Lidl, Rewe, Penny, Edeka",
+            "conditionalFilter": "Aldi OR Lidl OR Rewe OR Penny OR Edeka",
             "budgetType": "Monthly",
             "budgetLimit": 100.0
         },{
             "_id": "62bd8c0c875450c9604cb25e",
             "name": "Restaurant",
-            "conditionalFilter": "Restaurant, Mensa, McDonalds, Burger King",
+            "conditionalFilter": "Restaurant OR Mensa OR McDonalds OR Burger King",
             "budgetType": "Monthly",
             "budgetLimit": 50.0
         }]
@@ -48,13 +68,13 @@ const users = [
         "categories":[{
             "_id": "62bd8c238f5778e56abd511c",
             "name": "Bar",
-            "conditionalFilter": "Bar, Pub, Campus Cneipe, Hopfendolde",
+            "conditionalFilter": "Bar OR Pub OR Campus Cneipe OR Hopfendolde",
             "budgetType": "Monthly",
             "budgetLimit": 100.0
         },{
             "_id": "62bd8c2b694c69ea539b7c09",
             "name": "Club",
-            "conditionalFilter": "Club, Rubys, Neuraum",
+            "conditionalFilter": "Club OR Rubys OR Neuraum",
             "budgetType": "Monthly",
             "budgetLimit": 50.0
         }]
@@ -72,6 +92,16 @@ const users = [
         ],
         "password": "$2a$10$IwU8f.mH/2K.59nercjRqOEaa0q.9AkskB4YxHfK8SO5U855FHOQC",
         "userBanks": [{
+            "_id": "62beadb6b57c882462c9a79d",
+            "name": "Cash",
+            "metaData": {},
+            "bankAccounts":[{
+                "_id": "62beae313d0a62cda1272330",
+                "label": "Cash",
+                "metaData": {},
+                "accessToken": "TOKEN_1"
+            }]
+        },{
             "_id": "62bd8c5a1791518580cfe9ff",
             "requisitionId": "ABCD",
             "institutionId": "COBADEFFXXX",
@@ -81,10 +111,17 @@ const users = [
                 "_id": "62bd8c644d4e1bec4ef6ff87",
                 "label": "EC-Card",
                 "metaData": {},
-                "accessToken": "TOKEN_1"
+                "accessToken": "TOKEN_2"
             }]
         }],
         "categoryGroups":[{
+            "_id": "62beac7fae6adfb22cc5ba34",
+            "name": "No Group",
+            "categories":[{
+                "_id": "62beac8ea1de7d3d77353ba4",
+                "name": "Uncategorized"
+            }]
+        },{
             "_id": "62bd8c765c7b38eb0bd33164",
             "name": "Food",
             "budgetType": "Monthly",
@@ -98,13 +135,13 @@ const users = [
             },{
                 "_id": "62bd8c85728a3c57334392d9",
                 "name": "Supermarket",
-                "conditionalFilter": "Aldi, Lidl, Rewe, Penny, Edeka",
+                "conditionalFilter": "Aldi OR Lidl OR Rewe OR Penny OR Edeka",
                 "budgetType": "Monthly",
                 "budgetLimit": 150.0
             },{
                 "_id": "62bd8c8bdc3df9e169764717",
                 "name": "Restaurant",
-                "conditionalFilter": "Restaurant, Chopan, Hasian, Culinare",
+                "conditionalFilter": "Restaurant OR Chopan OR Hasian OR Culinare",
                 "budgetType": "Monthly",
                 "budgetLimit": 100.0
             }]
@@ -116,13 +153,13 @@ const users = [
             "categories":[{
                 "_id": "62bd8c9d150d9178383635f9",
                 "name": "Bar",
-                "conditionalFilter": "Bar, Pub, Campus Cneipe, Hopfendolde",
+                "conditionalFilter": "Bar OR Pub OR Campus Cneipe OR Hopfendolde",
                 "budgetType": "Monthly",
                 "budgetLimit": 100.0
             },{
                 "_id": "62bd8ca571f81449e0fc7f4a",
                 "name": "Coffee",
-                "conditionalFilter": "Coffee, Kaffee, Café",
+                "conditionalFilter": "Coffee OR Kaffee OR Café",
                 "budgetType": "Monthly",
                 "budgetLimit": 50.0
             }]
@@ -134,19 +171,19 @@ const users = [
             "categories":[{
                 "_id": "62bd8cb551649e612fd02736",
                 "name": "Sport",
-                "conditionalFilter": "Sport, Yoga, Swimm, Bath, Club",
+                "conditionalFilter": "Sport OR Yoga OR Swimm OR Bath OR Club",
                 "budgetType": "Monthly",
                 "budgetLimit": 100.0
             },{
                 "_id": "62bd8cbc23e48eb4f739e995",
                 "name": "Streaming",
-                "conditionalFilter": "Netflix, Disney, Spotify",
+                "conditionalFilter": "Netflix OR Disney OR Spotify",
                 "budgetType": "Monthly",
                 "budgetLimit": 50.0
             },{
                 "_id": "62bd8cc36b93d726fdb91cf3",
                 "name": "Games",
-                "conditionalFilter": "Steam, League, Games",
+                "conditionalFilter": "Steam OR League OR Games",
                 "budgetType": "MONTHLY",
                 "budgetLimit": 50.0
             }]
@@ -164,6 +201,16 @@ const users = [
         ],
         "password": "$2a$10$aO.RVBvoh2FqZKm5b/ujkucrwAfXK/cU6WrhOp6J.2OCkKiYLd13i",
         "userBanks": [{
+            "_id": "62beaec557529d1b6278b54a",
+            "name": "Cash",
+            "metaData": {},
+            "bankAccounts":[{
+                "_id": "62beaed257756ecf808016fa",
+                "label": "Cash",
+                "metaData": {},
+                "accessToken": "TOKEN_1"
+            }]
+        },{
             "_id": "62bd8d049f2d4bcfcb10080b",
             "requisitionId": "ABCD",
             "institutionId": "COBADEFFXXX",
@@ -173,7 +220,7 @@ const users = [
                 "_id": "62bd8d0dbf082bd92be27cae",
                 "label": "EC-Card",
                 "metaData": {},
-                "accessToken": "TOKEN_1"
+                "accessToken": "TOKEN_2"
             }]
         },{
             "_id": "62bd8d17e23ff398ee3d35c1",
@@ -185,10 +232,17 @@ const users = [
                 "_id": "62bd8d20b82533dca206e9cb",
                 "label": "EC-Card",
                 "metaData": {},
-                "accessToken": "TOKEN_1"
+                "accessToken": "TOKEN_3"
             }]
         }],
         "categoryGroups":[{
+            "_id": "62bead212dd2b4946c96971d",
+            "name": "No Group",
+            "categories":[{
+                "_id": "62bead2c315639614ebeb331",
+                "name": "Uncategorized"
+            }]
+        },{
             "_id": "62bd8d26714371e5a1b43872",
             "name": "Food",
             "budgetType": "Monthly",
@@ -196,13 +250,13 @@ const users = [
             "categories":[{
                 "_id": "62bd8d2ff600664c374ef762",
                 "name": "Supermarket",
-                "conditionalFilter": "Aldi, Lidl, Rewe, Penny, Edeka",
+                "conditionalFilter": "Aldi OR Lidl OR Rewe OR Penny OR Edeka",
                 "budgetType": "Monthly",
                 "budgetLimit": 350.0
             },{
                 "_id": "62bd8d3988fa43e1d6ac2571",
                 "name": "Restaurant",
-                "conditionalFilter": "Restaurant, Chopan, Hasian, Culinare",
+                "conditionalFilter": "Restaurant OR Chopan OR Hasian OR Culinare",
                 "budgetType": "Monthly",
                 "budgetLimit": 150.0
             }]
@@ -214,13 +268,13 @@ const users = [
             "categories":[{
                 "_id": "62bd8d4d95d8d5ffbf4f0dfd",
                 "name": "Traffic",
-                "conditionalFilter": "Bahn, Lufthansa, Airport",
+                "conditionalFilter": "Bahn OR Lufthansa OR Airport",
                 "budgetType": "YEARLY",
                 "budgetLimit": 600.0
             },{
                 "_id": "62bd8d5487b43c372a6ed08f",
                 "name": "Hotel",
-                "conditionalFilter": "Hotel, Hostel, B&B",
+                "conditionalFilter": "Hotel OR Hostel OR B&B",
                 "budgetType": "Monthly",
                 "budgetLimit": 700.0
             }]
@@ -232,19 +286,19 @@ const users = [
             "categories":[{
                 "_id": "62bd8d6317a6490c5b0ddc27",
                 "name": "Sport",
-                "conditionalFilter": "Fittness, Sport",
+                "conditionalFilter": "Fittness OR Sport",
                 "budgetType": "Monthly",
                 "budgetLimit": 100.0
             },{
                 "_id": "62bd8d6a9930dabac38785d8",
                 "name": "Streaming",
-                "conditionalFilter": "Netflix, Disney, Spotify",
+                "conditionalFilter": "Netflix OR Disney OR Spotify",
                 "budgetType": "Monthly",
                 "budgetLimit": 50.0
             },{
                 "_id": "62bd8d72dd3debb23aec5515",
                 "name": "Fußball",
-                "conditionalFilter": "Stadion, Wetten, Fußball",
+                "conditionalFilter": "Stadion OR Wetten OR Fußball",
                 "budgetType": "MONTHLY",
                 "budgetLimit": 50.0
             }]
@@ -262,7 +316,7 @@ const users = [
             },{
                 "_id": "62bd8d89f64bcb73d350f21d",
                 "name": "other Insurances",
-                "conditionalFilter": "liability insurance, legal protection, travel insurance",
+                "conditionalFilter": "liability insurance OR legal protection OR travel insurance",
                 "budgetType": "YEARLY",
                 "budgetLimit": 400.0
             }]
@@ -283,6 +337,7 @@ new Transaction({
     "transactionType": "MANUAL",
     "verified": true,
     "transactionViewed": true,
+    "bankAccountID": "62beae808a0e08dec84728a2",
     "categoryID": "62bd8c0c875450c9604cb25e",
     "userID": "62baf1eb03e5955e3b4b21cc"
 }),
@@ -296,6 +351,7 @@ new Transaction({
     "transactionType": "MANUAL",
     "verified": true,
     "transactionViewed": true,
+    "bankAccountID": "62beae808a0e08dec84728a2",
     "categoryID": "62bd8c0c875450c9604cb25e",
     "userID": "62baf1eb03e5955e3b4b21cc"
 }),
@@ -309,6 +365,7 @@ new Transaction({
     "transactionType": "MANUAL",
     "verified": true,
     "transactionViewed": true,
+    "bankAccountID": "62beae808a0e08dec84728a2",
     "categoryID": "62bd8c0c875450c9604cb25e",
     "userID": "62baf1eb03e5955e3b4b21cc"
 }),
@@ -322,6 +379,7 @@ new Transaction({
     "transactionType": "MANUAL",
     "verified": true,
     "transactionViewed": true,
+    "bankAccountID": "62beae808a0e08dec84728a2",
     "categoryID": "62bd8c03be63fe6d00b26986",
     "userID": "62baf1eb03e5955e3b4b21cc"
 }),
@@ -335,6 +393,7 @@ new Transaction({
     "transactionType": "MANUAL",
     "verified": true,
     "transactionViewed": true,
+    "bankAccountID": "62beae808a0e08dec84728a2",
     "categoryID": "62bd8c03be63fe6d00b26986",
     "userID": "62baf1eb03e5955e3b4b21cc"
 }),
@@ -348,15 +407,286 @@ new Transaction({
     "transactionType": "MANUAL",
     "verified": true,
     "transactionViewed": true,
+    "bankAccountID": "62beae808a0e08dec84728a2",
     "categoryID": "62bd8c238f5778e56abd511c",
     "userID": "62baf1eb03e5955e3b4b21cc"
 }),
 //Mia Musters Transactions
 new Transaction({
-    "_id": "62bda20b6c6a1b6ce881594b",
+    "_id": "62bef14b9411e07b43876c5f",
     "bookingDate":"2022-04-23T18:25:43.511Z",
     "valueDate":"2022-04-24T18:23:43.511Z",
-    "transactionAmount": 40.00,
+    "transactionAmount": 60.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Therme Erding",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62beac8ea1de7d3d77353ba4",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef15885bda443bd912924",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 560.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Miete",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62beac8ea1de7d3d77353ba4",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef1a09f2987b5607d09d2",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 1800.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Gehalt",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "incoming",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62beac8ea1de7d3d77353ba4",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef1ab598796b64dd58814",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 100.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Oma",
+    "remittanceInformation": "Alles Liebe",
+    "transactionType": "incoming",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62beac8ea1de7d3d77353ba4",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef1b5205dea7b4cb2dd09",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 37.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Aldi",
+    "remittanceInformation": "Danke für den Einkauf",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62beae313d0a62cda1272330",
+    "categoryID": "62bd8c85728a3c57334392d9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef1c9ef4d62da275514cd",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 42.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Edeka",
+    "remittanceInformation": "Danke für den Einkauf",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8c85728a3c57334392d9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef1d463447fb465a5291f",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 24.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Lidl",
+    "remittanceInformation": "Danke für den Einkauf",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62beae313d0a62cda1272330",
+    "categoryID": "62bd8c85728a3c57334392d9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef1dea56aff9c354e8931",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 45.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Hasian",
+    "remittanceInformation": "Buffet",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62beae313d0a62cda1272330",
+    "categoryID": "62bd8c85728a3c57334392d9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef1ef63aa1229f60bd3ba",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 30.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Restaurant Radischen",
+    "remittanceInformation": "Ganz viele Radieschen",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62beae313d0a62cda1272330",
+    "categoryID": "62bd8c85728a3c57334392d9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef1fcdb7bea4cf161bd9d",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 12.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Restaurant Rettich",
+    "remittanceInformation": "Ganz viele Rettich",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62beae313d0a62cda1272330",
+    "categoryID": "62bd8c85728a3c57334392d9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef20675c504c907c0a831",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 23.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Campus Cneipe Garching",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8c9d150d9178383635f9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef21b6e385dc21bdaf521",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 60.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Irish pub",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62beae313d0a62cda1272330",
+    "categoryID": "62bd8c9d150d9178383635f9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef2253bcd68a2f104cad7",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 30.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Hopfendolde",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8c9d150d9178383635f9",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef22eb0a62b3c6fe86f44",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 25.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Yoga Dream",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8cb551649e612fd02736",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef23f93ba8ac90405ac14",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 10.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Netflix",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8cbc23e48eb4f739e995",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef25dbb9e1bd1c24a3a28",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 20.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Disney Plus",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8cbc23e48eb4f739e995",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef2685b5de353ed6820fb",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 5.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Spotify",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "62bd8cbc23e48eb4f739e995",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef29b24c7b22a0f5319d8",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 13.00,
+    "transactionCurrency":"EUR",
+    "transactionPartnerName": "Lieferando",
+    "remittanceInformation": "Invoice #11449",
+    "transactionType": "outgoing",
+    "verified": true,
+    "transactionViewed": false,
+    "bankAccountID": "62bd8c644d4e1bec4ef6ff87",
+    "categoryID": "507f191e810c19729de860f2",
+    "userID": "62bb5fff657be4ae0dcd8c14"
+}),
+new Transaction({
+    "_id": "62bef2a5b46ec57e981cd018",
+    "bookingDate":"2022-04-23T18:25:43.511Z",
+    "valueDate":"2022-04-24T18:23:43.511Z",
+    "transactionAmount": 27.00,
     "transactionCurrency":"EUR",
     "transactionPartnerName": "Lieferando",
     "remittanceInformation": "Invoice #11449",
@@ -505,25 +835,17 @@ new Transaction({
 }),
 ]
 
-
 //skript
-let doneUser = 0;
-let doneTransaction = 0;
-
 export const seedData = async () => {
   try {
     await User.deleteMany({});
     for (let i = 0; i < users.length; i++) {
-      users[i].save(function (err, result) {
-        doneUser++;
-      });
+      users[i].save(function (err, result) {});
     }
 
     await Transaction.deleteMany({});
     for (let i = 0; i < transactions.length; i++) {
-        transactions[i].save(function (err, result) {
-          doneTransaction++;
-        });
+        transactions[i].save(function (err, result) {});
       }
 
   } catch (err) {
@@ -531,3 +853,30 @@ export const seedData = async () => {
   }
   console.log("Database is seeded from seedScript.");
 };
+
+// Set the port to the API.
+api.set('port', port);
+
+// Create a http server based on Express
+const server = http.createServer(api);
+
+//Connect to the MongoDB database; then start the server
+mongoose
+  .connect(mongoURI)
+  .then(() => server.listen(port))
+  .catch((err) => {
+    console.log('Error connecting to the database', err.message);
+    process.exit(err.statusCode);
+  });
+
+//Seed mock data from seedScript
+seedData();
+
+server.on('listening', () => {
+  console.log(`API is running on port ${port}`);
+});
+
+server.on('error', (err) => {
+  console.log('Error in the server', err.message);
+  process.exit(err.statusCode);
+});

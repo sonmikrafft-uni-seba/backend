@@ -12,7 +12,8 @@
   },
   "scripts": {
     "start": "node ./index.js",
-    "devstart": "nodemon ./index.js"
+    "devstart": "nodemon ./index.js",
+    "seeddb": "node ./seedScript.js"
   },
   "main": "index.js",
   "type": "module"
