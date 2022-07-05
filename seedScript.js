@@ -15,7 +15,7 @@ const users = [
     "subscriptionPlan": [
         "FREE"
     ],
-    "password": "$2a$10$cXwkTyOJWpPcucg8mZPyk.clm97Z9RsDAaIFWhTg12wqOerdg7dZO",//test
+    "password": "$2a$10$tfH9/Wq0DUF8LnnVPzS5jOKPjJEgIWNnYJxpxa7GzMn37oQGtATla",//test
     "userBanks": [{
         "_id": "62beae73ca99591537ad38a4",
         "name": "Cash",
@@ -88,7 +88,7 @@ const users = [
         "subscriptionPlan": [
             "PREMIUM"
         ],
-        "password": "$$2a$10$cXwkTyOJWpPcucg8mZPyk.clm97Z9RsDAaIFWhTg12wqOerdg7dZO",//test
+        "password": "$2a$10$tfH9/Wq0DUF8LnnVPzS5jOKPjJEgIWNnYJxpxa7GzMn37oQGtATla",//test
         "userBanks": [{
             "_id": "62beadb6b57c882462c9a79d",
             "name": "Cash",
@@ -197,7 +197,7 @@ const users = [
         "subscriptionPlan": [
             "PREMIUM"
         ],
-        "password": "$2a$10$cXwkTyOJWpPcucg8mZPyk.clm97Z9RsDAaIFWhTg12wqOerdg7dZO",//test
+        "password": "$2a$10$tfH9/Wq0DUF8LnnVPzS5jOKPjJEgIWNnYJxpxa7GzMn37oQGtATla",//test
         "userBanks": [{
             "_id": "62beaec557529d1b6278b54a",
             "name": "Cash",
@@ -833,7 +833,6 @@ new Transaction({
 }),
 ]
 
-
 //seeding skript
 export const seedData = async () => {
   try {
@@ -851,7 +850,7 @@ export const seedData = async () => {
     console.error(err);
   }
   console.log("Database is seeded from seedScript.");
-  console.log("To end klick STRG+C");
+  console.log("Press STRG+C to end.");
 };
 
 //Connect to the MongoDB database
