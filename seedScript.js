@@ -2,8 +2,6 @@
 import User from "./src/models/user.js";
 import Transaction from "./src/models/transaction.js";
 import mongoose from 'mongoose';
-import http from 'http';
-import api from './src/api.js';
 import { mongoURI, port } from './src/config.js';
 
 //3 mock users
@@ -17,7 +15,7 @@ const users = [
     "subscriptionPlan": [
         "FREE"
     ],
-    "password": "$2a$10$cXwkTyOJWpPcucg8mZPyk.clm97Z9RsDAaIFWhTg12wqOerdg7dZO",
+    "password": "$2a$10$cXwkTyOJWpPcucg8mZPyk.clm97Z9RsDAaIFWhTg12wqOerdg7dZO",//test
     "userBanks": [{
         "_id": "62beae73ca99591537ad38a4",
         "name": "Cash",
@@ -90,7 +88,7 @@ const users = [
         "subscriptionPlan": [
             "PREMIUM"
         ],
-        "password": "$2a$10$IwU8f.mH/2K.59nercjRqOEaa0q.9AkskB4YxHfK8SO5U855FHOQC",
+        "password": "$$2a$10$cXwkTyOJWpPcucg8mZPyk.clm97Z9RsDAaIFWhTg12wqOerdg7dZO",//test
         "userBanks": [{
             "_id": "62beadb6b57c882462c9a79d",
             "name": "Cash",
@@ -199,7 +197,7 @@ const users = [
         "subscriptionPlan": [
             "PREMIUM"
         ],
-        "password": "$2a$10$aO.RVBvoh2FqZKm5b/ujkucrwAfXK/cU6WrhOp6J.2OCkKiYLd13i",
+        "password": "$2a$10$cXwkTyOJWpPcucg8mZPyk.clm97Z9RsDAaIFWhTg12wqOerdg7dZO",//test
         "userBanks": [{
             "_id": "62beaec557529d1b6278b54a",
             "name": "Cash",
@@ -835,7 +833,8 @@ new Transaction({
 }),
 ]
 
-//skript
+
+//seeding skript
 export const seedData = async () => {
   try {
     await User.deleteMany({});
@@ -852,31 +851,16 @@ export const seedData = async () => {
     console.error(err);
   }
   console.log("Database is seeded from seedScript.");
+  console.log("To end klick STRG+C");
 };
 
-// Set the port to the API.
-api.set('port', port);
-
-// Create a http server based on Express
-const server = http.createServer(api);
-
-//Connect to the MongoDB database; then start the server
+//Connect to the MongoDB database
 mongoose
   .connect(mongoURI)
-  .then(() => server.listen(port))
   .catch((err) => {
     console.log('Error connecting to the database', err.message);
     process.exit(err.statusCode);
   });
 
-//Seed mock data from seedScript
+//seed data
 seedData();
-
-server.on('listening', () => {
-  console.log(`API is running on port ${port}`);
-});
-
-server.on('error', (err) => {
-  console.log('Error in the server', err.message);
-  process.exit(err.statusCode);
-});
