@@ -2,6 +2,7 @@
 
 import mongoose from 'mongoose';
 import { frontendBaseUrl } from '../config.js';
+import { TransactionCurrency } from '../models/constants';
 
 export const getDefaultCategoryGroup = () => {
   const name = 'No Group';
@@ -26,7 +27,7 @@ export const getDefaultBank = (firstName, lastName) => {
           iban: '-',
           product: 'Default Account',
           owner: firstName + ' ' + lastName,
-          currency: 'EUR',
+          currency: TransactionCurrency.EUR,
         },
       },
     ],
