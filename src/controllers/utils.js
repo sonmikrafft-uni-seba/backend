@@ -1,8 +1,7 @@
 'use strict';
 
-import mongoose from 'mongoose';
 import { frontendBaseUrl } from '../config.js';
-import { TransactionCurrency } from '../models/constants';
+import { TransactionCurrency } from '../models/constants.js';
 
 export const getDefaultCategoryGroup = () => {
   const name = 'No Group';
