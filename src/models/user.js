@@ -58,6 +58,8 @@ const UserSchema = new Schema({
     required: true,
   },
   subscriptionPlan: Object.values(SubscriptionPlan),
+  customerId: String,
+  activeSubscriptionId: String,
   password: {
     type: String,
     required: true,

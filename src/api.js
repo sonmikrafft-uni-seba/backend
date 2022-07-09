@@ -3,12 +3,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
-
 import middlewares from './middleware.js';
 
 import auth from './routes/auth.js';
 import user from './routes/user.js';
 import transaction from './routes/transaction.js';
+import subscription from './routes/subscription.js';
 
 const api = express();
 
@@ -29,5 +29,6 @@ api.get('/', (req, res) => {
 api.use('/auth', auth);
 api.use('/user', user);
 api.use('/user', transaction);
+api.use('/user', subscription);
 
 export default api;

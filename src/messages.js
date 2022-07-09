@@ -24,6 +24,11 @@ const HTTP_ERROR_RESPONSE = {
     'The request body must contain a transaction amount property.',
   MISSING_TRANSACTION_TYPE: 'The request body must contain a transaction type.',
   MISSING_CATEGORY_ID: 'The request body must contain a category ID property.',
+  MISSING_CUSTOMER_ID: 'The request body must contain a customer ID property',
+  MISSING_PRICE_ID: 'The request body must contain a price ID property',
+  MISSING_SUBSCRIPTION_ID:
+    'The request body must contain a subscription ID property',
+  INVOICE_PAYMENT_FAILS: 'Invoice payment fails',
   EMPTY_REQ_BODY: 'The request body is empty',
   USER_ALREADY_EXISTS: 'A user with this email already exists.',
   USER_CREDS_WRONG: 'The email or password is wrong.',
