@@ -18,6 +18,12 @@ const stripeEndpointSecret =
 
 const premiumPriceId =
   process.env.PREMIUM_PRICE_ID || 'price_1LHlYWLQApau8IOPnygwR6dB';
+const bankingSecret =
+  process.env.BANKING_SECRET ||
+  'f71836026d78e72ab2d9778faef16088d420e17bfd848d95e9ea73ca779b85ce52a08e18c59bef30aa06374e32051c9113072faf4f61642a1cf8c7758619aab2';
+const bankingID =
+  process.env.BANKING_ID || '06122eb5-39cc-407e-995b-5e4452bbba57';
+const frontendBaseUrl = 'http://localhost:3000';
 export {
   port,
   mongoURI,
@@ -27,4 +33,7 @@ export {
   stripePrivateKey,
   stripeEndpointSecret,
   premiumPriceId,
+  bankingID,
+  bankingSecret,
+  frontendBaseUrl,
 };

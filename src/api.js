@@ -7,6 +7,7 @@ import middlewares from './middleware.js';
 
 import auth from './routes/auth.js';
 import user from './routes/user.js';
+import banking from './routes/banking.js';
 import transaction from './routes/transaction.js';
 import subscription from './routes/subscription.js';
 
@@ -30,5 +31,6 @@ api.use('/auth', auth);
 api.use('/user', user);
 api.use('/user', transaction);
 api.use('/user', subscription);
+api.use('/banking', banking);
 
 export default api;
