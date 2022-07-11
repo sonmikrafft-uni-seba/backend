@@ -165,7 +165,7 @@ const update = async (req, res) => {
     // find transaction with transactionId for a specific userId
     let transaction = await TransactionModel.findOneAndUpdate(
       {
-        id: req.params.transactionId,
+        _id: req.params.transactionId,
         userID: req.params.userId,
       },
       req.body,
