@@ -10,11 +10,12 @@ import user from './routes/user.js';
 import banking from './routes/banking.js';
 import transaction from './routes/transaction.js';
 import subscription from './routes/subscription.js';
-
+import webhook from './routes/webhook.js';
 const api = express();
 
 // Adding Basic Middlewares
 api.use(helmet());
+api.use('/webhook', bodyParser.raw({ type: '*/*' }));
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: false }));
 api.use(middlewares.allowCrossDomain);
@@ -32,5 +33,5 @@ api.use('/user', user);
 api.use('/user', transaction);
 api.use('/user', subscription);
 api.use('/banking', banking);
-
+api.use('/', webhook);
 export default api;

@@ -43,6 +43,7 @@ const create = async (req, res) => {
 
     // Check whether the user is assigned with a customerId
     if (!user.customerId) {
+      console.log('creating customer...');
       // Create the customer on stripe if the property customerId does not exist
       const customer = await stripe.customers.create({
         email: user.email,
@@ -55,6 +56,7 @@ const create = async (req, res) => {
           message: { message: err.message },
         });
       }
+      console.log(customer);
       //Find the user in the database and update its property customerId
       let updatedUser = await UserModel.findByIdAndUpdate(
         req.params.userId,
@@ -133,7 +135,7 @@ const list = async (req, res) => {
   try {
     const subscriptions = await stripe.subscriptions.retrieve({
       customer: user.customerId,
-      status: 'all',
+      status: 'active',
       expand: ['data.default_payment_method'],
     });
     return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(subscriptions);
@@ -147,6 +149,7 @@ const list = async (req, res) => {
 
 const handleWebhook = async (req, res) => {
   let event;
+  console.log(event);
   if (endpointSecret) {
     // Get the signature sent by Stripe
     const signature = req.headers['stripe-signature'];
@@ -206,25 +209,37 @@ const handleWebhook = async (req, res) => {
             { returnDocument: 'after' }
           );
           if (!paymentSuccessUser) {
-            return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
-              error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
-              message: HTTP_ERROR_RESPONSE.USER_NOT_FOUND,
-            });
+            console.log('Failed to update subscription plan in database');
           }
-          return res
-            .status(HTTP_ERROR_TYPE_NUMBER.SUCCESS)
-            .json(paymentSuccessUser);
         } catch (err) {
           console.log(err);
-          return res.status(HTTP_ERROR_TYPE_NUMBER.BAD_REQUEST).json({
-            error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
-            message: `Falied to update the default payment method for subscription: ${subscription_id}`,
-          });
+          console.log(
+            `Falied to update the default payment method for subscription: ${subscription_id}`
+          );
         }
       }
       break;
     case 'invoice.payment_failed':
-      return res.status(HTTP_ERROR_TYPE_NUMBER.BAD_REQUEST).json({});
+      break;
+    case 'customer.subscription.updated':
+      if (dataObject['cancel_at_period_end'] == true) {
+        const current_period_end_timestamp = dataObject['current_period_end'];
+        const success_customer_id = dataObject['customer'];
+        const current_period_end = timeConverter(current_period_end_timestamp);
+        const updateSuccessUser = await UserModel.findOneAndUpdate(
+          {
+            customerId: success_customer_id,
+          },
+          {
+            subscriptionCancelDate: current_period_end,
+          },
+          { returnDocument: 'after' }
+        );
+        if (!updateSuccessUser) {
+          console.log('Failed to update subscription plan in database');
+        }
+      }
+      break;
     case 'customer.subscription.deleted':
       if (event.request != null) {
         const deleted_customer_id = dataObject['customer'];
@@ -235,24 +250,23 @@ const handleWebhook = async (req, res) => {
           {
             subscriptionPlan: SubscriptionPlan.FREE,
             activeSubscriptionId: undefined,
+            subscriptionCancelDate: undefined,
           },
           { returnDocument: 'after' }
         );
         if (!deletionSuccessUser) {
-          return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
-            error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
-            message: HTTP_ERROR_RESPONSE.USER_NOT_FOUND,
-          });
+          console.log('Failed to update subscription plan in database');
         }
-        return res
-          .status(HTTP_ERROR_TYPE_NUMBER.SUCCESS)
-          .json(deletionSuccessUser);
-      } else {
+        break;
       }
       break;
     default:
-    // Unexpected event type
+      // Unexpected event type
+      return res
+        .status(HTTP_ERROR_TYPE_NUMBER.SUCCESS)
+        .json({ received: true });
   }
+  return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json({ received: true });
 };
 
 // Public key and
@@ -261,6 +275,29 @@ const config = async (_, res) => {
     publicKey: stripePublicKey,
     priceId: premiumPriceId,
   });
+};
+
+const timeConverter = (UNIX_timestamp) => {
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var formattedDate = month + ' ' + date + ', ' + year;
+  return formattedDate;
 };
 
 export default {

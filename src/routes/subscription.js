@@ -16,11 +16,10 @@ router.post(
   SubscriptionController.cancel
 ); // cancel stripe subscription
 router.get(
-  '/:userId/subscriptions',
+  '/:userId/subscription/all',
   middlewares.checkAuthentication,
   SubscriptionController.list
 ); // get subscriptions of a user
-router.post('/:userId/stripe_webhook', SubscriptionController.handleWebhook); // handle stripe webhook, listening without authentication
 router.get(
   '/:userId/subscription/config',
   middlewares.checkAuthentication,
