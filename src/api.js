@@ -15,8 +15,8 @@ const api = express();
 
 // Adding Basic Middlewares
 api.use(helmet());
-api.use(bodyParser.json());
-api.use(bodyParser.urlencoded({ extended: false }));
+api.use(bodyParser.json({ limit: '50mb' }));
+api.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 api.use(middlewares.allowCrossDomain);
 
 // Basic route
