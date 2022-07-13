@@ -16,6 +16,16 @@ router.get(
   middlewares.checkAuthentication,
   TransactionController.list
 ); // list all transactions
+router.put(
+  '/:userId/transaction/reassign',
+  middlewares.checkAuthentication,
+  TransactionController.updateMany
+); // list all transactions
+router.post(
+  '/:userId/transaction/many',
+  middlewares.checkAuthentication,
+  TransactionController.createMany
+); // create new transaction
 router.get(
   '/:userId/transaction/:transactionId',
   middlewares.checkAuthentication,

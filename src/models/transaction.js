@@ -13,6 +13,7 @@ const TransactionSchema = new Schema({
     type: Number,
     required: true,
   },
+  transactionId: String,
   transactionCurrency: Object.values(TransactionCurrency),
   transactionPartnerName: String,
   remittanceInformation: String,
