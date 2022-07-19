@@ -154,7 +154,7 @@ const read = async (req, res) => {
 
     // find transaction with transactionId for a specific userId
     let transaction = await TransactionModel.findOne({
-      id: req.params.transactionId,
+      _id: req.params.transactionId,
       userID: req.params.userId,
     }).exec();
 
@@ -298,14 +298,11 @@ const remove = async (req, res) => {
     }
 
     // find transaction with transactionId for a specific userId
-    await TransactionModel.findOneAndRemove({
-      id: req.params.transactionId,
+    let transaction = await TransactionModel.findOneAndDelete({
+      _id: req.params.transactionId,
       userID: req.params.userId,
     }).exec();
-
-    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json({
-      message: `Transaction with id:${req.params.transactionId} was deleted`,
-    });
+    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(transaction);
   } catch (err) {
     console.log(err);
     return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
