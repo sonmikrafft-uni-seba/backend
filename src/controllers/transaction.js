@@ -110,6 +110,34 @@ const create = async (req, res) => {
 };
 
 /**
+ * Create many new transactions in database for given user
+ */
+const createMany = async (req, res) => {
+  try {
+    let user = await UserModel.findById(req.params.userId).exec();
+
+    // check if user with the given id exists
+    if (!user) {
+      return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
+        error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
+        message: HTTP_ERROR_RESPONSE.USER_NOT_FOUND,
+      });
+    }
+
+    // create transactions in database
+    let newTransactions = await TransactionModel.create(req.body);
+
+    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(newTransactions);
+  } catch (err) {
+    console.log(err);
+    return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
+      error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
+      message: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+/**
  * Return a transaction with specific id from database for a specific userId
  */
 const read = async (req, res) => {
@@ -126,7 +154,7 @@ const read = async (req, res) => {
 
     // find transaction with transactionId for a specific userId
     let transaction = await TransactionModel.findOne({
-      id: req.params.transactionId,
+      _id: req.params.transactionId,
       userID: req.params.userId,
     }).exec();
 
@@ -165,7 +193,7 @@ const update = async (req, res) => {
     // find transaction with transactionId for a specific userId
     let transaction = await TransactionModel.findOneAndUpdate(
       {
-        id: req.params.transactionId,
+        _id: req.params.transactionId,
         userID: req.params.userId,
       },
       req.body,
@@ -193,6 +221,68 @@ const update = async (req, res) => {
 };
 
 /**
+ * Update many transactions in database for a specific userId
+ */
+const updateMany = async (req, res) => {
+  try {
+    let user = await UserModel.findById(req.params.userId).exec();
+
+    // check if user with the given id exists
+    if (!user) {
+      return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
+        error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
+        message: HTTP_ERROR_RESPONSE.USER_NOT_FOUND,
+      });
+    }
+
+    var transactions = [];
+    var newTransaction = null;
+
+    if (!Array.isArray(transactions)) {
+      throw Error;
+    }
+
+    // async in parallel
+    await Promise.all(
+      req.body.map(async (transaction) => {
+        let transactionId = transaction._id;
+        delete transaction._id;
+
+        // find transactions for a specific userId
+        newTransaction = await TransactionModel.findOneAndUpdate(
+          {
+            _id: transactionId,
+            userID: req.params.userId,
+          },
+          transaction,
+          {
+            new: true,
+            runValidators: true,
+          }
+        ).exec();
+
+        if (!newTransaction) {
+          return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
+            error: HTTP_ERROR_TYPE.TRANSACTION_NOT_FOUND,
+            message: HTTP_ERROR_RESPONSE.TRANSACTION_NOT_FOUND,
+          });
+        }
+
+        transactions.push(newTransaction);
+      })
+    );
+
+    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(transactions);
+  } catch (err) {
+    console.log(err);
+    return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
+      error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
+      message: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+/**
  * Delete a transaction in database for a specific userId
  */
 const remove = async (req, res) => {
@@ -208,14 +298,11 @@ const remove = async (req, res) => {
     }
 
     // find transaction with transactionId for a specific userId
-    await TransactionModel.findOneAndRemove({
-      id: req.params.transactionId,
+    let transaction = await TransactionModel.findOneAndDelete({
+      _id: req.params.transactionId,
       userID: req.params.userId,
     }).exec();
-
-    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json({
-      message: `Transaction with id:${req.params.transactionId} was deleted`,
-    });
+    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json(transaction);
   } catch (err) {
     console.log(err);
     return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
@@ -257,8 +344,10 @@ const list = async (req, res) => {
 
 export default {
   create,
+  createMany,
   read,
   update,
+  updateMany,
   remove,
   list,
 };
