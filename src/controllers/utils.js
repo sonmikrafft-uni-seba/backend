@@ -1,15 +1,20 @@
 'use strict';
 
+import {
+  defaultAccountName,
+  defaultCategoryGroup,
+  defaultCategoryName,
+} from '../../../frontend/src/constants.js';
 import { frontendBaseUrl } from '../config.js';
 import { TransactionCurrency } from '../models/constants.js';
 
 export const getDefaultCategoryGroup = () => {
-  const name = 'No Group';
+  const name = defaultCategoryGroup;
   return { name: name, categories: [getDefaultCategory()] };
 };
 
 export const getDefaultCategory = () => {
-  return { name: 'Uncategorized' };
+  return { name: defaultCategoryName };
 };
 
 export const getDefaultBank = (firstName, lastName) => {
@@ -21,7 +26,7 @@ export const getDefaultBank = (firstName, lastName) => {
     },
     bankaccounts: [
       {
-        name: 'Default Account',
+        name: defaultAccountName,
         metaData: {
           iban: '-',
           product: 'Cash',
