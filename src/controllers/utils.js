@@ -1,12 +1,12 @@
 'use strict';
 
+import { frontendBaseUrl } from '../config.js';
 import {
   defaultAccountName,
   defaultCategoryGroup,
   defaultCategoryName,
-} from '../../../frontend/src/constants.js';
-import { frontendBaseUrl } from '../config.js';
-import { TransactionCurrency } from '../models/constants.js';
+  TransactionCurrency,
+} from '../models/constants.js';
 
 export const getDefaultCategoryGroup = () => {
   const name = defaultCategoryGroup;
