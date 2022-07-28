@@ -17,14 +17,14 @@ export const getDefaultBank = (firstName, lastName) => {
     institutionID: 'BUDGETLY',
     name: 'Budgetly',
     metaData: {
-      logo: frontendBaseUrl + '/images/budgetly_dark.png',
+      logo: frontendBaseUrl + '/images/budgetly_logo.png',
     },
     bankaccounts: [
       {
-        name: 'Cash',
+        name: 'Default Account',
         metaData: {
           iban: '-',
-          product: 'Default Account',
+          product: 'Cash',
           owner: firstName + ' ' + lastName,
           currency: TransactionCurrency.EUR,
         },
