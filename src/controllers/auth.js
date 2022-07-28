@@ -30,6 +30,13 @@ const login = async (req, res) => {
       email: req.body.email,
     }).exec();
 
+    if (!user) {
+      return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
+        error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
+        message: HTTP_ERROR_RESPONSE.USER_EMAIL_NOT_FOUND,
+      });
+    }
+
     // check if the password is valid
     const isPasswordValid = bcrypt.compareSync(
       req.body.password,

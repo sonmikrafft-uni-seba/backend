@@ -43,7 +43,6 @@ const create = async (req, res) => {
 
     // Check whether the user is assigned with a customerId
     if (!user.customerId) {
-      console.log('creating customer...');
       // Create the customer on stripe if the property customerId does not exist
       const customer = await stripe.customers.create({
         email: user.email,
@@ -56,7 +55,6 @@ const create = async (req, res) => {
           message: { message: err.message },
         });
       }
-      console.log(customer);
       //Find the user in the database and update its property customerId
       let updatedUser = await UserModel.findByIdAndUpdate(
         req.params.userId,
@@ -149,7 +147,6 @@ const list = async (req, res) => {
 
 const handleWebhook = async (req, res) => {
   let event;
-  console.log(event);
   if (endpointSecret) {
     // Get the signature sent by Stripe
     const signature = req.headers['stripe-signature'];
@@ -193,10 +190,6 @@ const handleWebhook = async (req, res) => {
             }
           );
 
-          console.log(
-            'Default payment method set for subscription:' +
-              payment_intent.payment_method
-          );
           // Update the user's subscription plan in our database
           const paymentSuccessUser = await UserModel.findOneAndUpdate(
             {
