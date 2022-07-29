@@ -37,9 +37,13 @@ router.put(
   TransactionController.update
 ); // update transaction by id
 router.delete(
+  '/:userId/transaction/many',
+  middlewares.checkAuthentication,
+  TransactionController.deleteMany
+); // delete transaction by account id
+router.delete(
   '/:userId/transaction/:transactionId',
   middlewares.checkAuthentication,
   TransactionController.remove
 ); // delete transaction by id
-
 export default router;
