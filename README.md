@@ -27,7 +27,7 @@ To install the Striple CLI you can follow [those](https://stripe.com/docs/stripe
 Once installed you need to run `stripe login` in your terminal and enter our Stripe credentials.
 Those credentials normally would never endup here... but since this is for a graded submission here they are:
 
-- user ga27pil@mytum.de
+- user ga27pih@mytum.de
 - pw: SEBAStripe@20220630
 
 Now you can start the request forwarding by running:
