@@ -284,7 +284,6 @@ const updateMany = async (req, res) => {
 
 const deleteMany = async (req, res) => {
   try {
-    console.log('hi');
     let user = await UserModel.findById(req.params.userId).exec();
     // check if user with the given id exists
     if (!user) {
@@ -295,7 +294,7 @@ const deleteMany = async (req, res) => {
     }
     let deletedResult = TransactionModel.deleteMany({
       bankAccountID: req.body.accountId,
-    });
+    }).exec();
 
     if (!deletedResult) {
       return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
