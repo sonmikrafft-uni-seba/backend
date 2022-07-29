@@ -1,0 +1,44 @@
+// user.json
+{
+  "_id": "507f191e810c19729de860ea",
+  "firstName": "Max",
+  "lastName": "Mustermann",
+  "email": "123456",
+  "subscription": "premium",
+  "password": "sdfklaöslkfjaölskj",
+  "salt": "asdlfjköksd",
+  "userBanks": [
+    {
+      "_id": "507f191e810c19729de860eb",
+      "requisitionId": "ABCD",
+      "institutionId": "COBADEFFXXX",
+      "name": "Commerz Bank",
+      "metaData": {},
+      "bankAccounts": [
+        {
+          "_id": "507f191e810c19729de860ec",
+          "label": "ABC",
+          "metaData": {},
+          "accessToken": "TOKEN_1"
+        }
+      ]
+    }
+  ],
+  "categoryGroups": [
+    {
+      "_id": "507f191e810c19729de860f1",
+      "name": "Food",
+      "budgetType": "Monthly",
+      "budgetLimit": 300.0,
+      "categories": [
+        {
+          "_id": "507f191e810c19729de860f2",
+          "title": "Lieferando",
+          "conditionalFilter": "Lieferando",
+          "budgetType": "Monthly",
+          "budgetLimit": 100.0
+        }
+      ]
+    }
+  ]
+}
