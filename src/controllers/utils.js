@@ -1,15 +1,20 @@
 'use strict';
 
 import { frontendBaseUrl } from '../config.js';
-import { TransactionCurrency } from '../models/constants.js';
+import {
+  defaultAccountName,
+  defaultCategoryGroup,
+  defaultCategoryName,
+  TransactionCurrency,
+} from '../models/constants.js';
 
 export const getDefaultCategoryGroup = () => {
-  const name = 'No Group';
+  const name = defaultCategoryGroup;
   return { name: name, categories: [getDefaultCategory()] };
 };
 
 export const getDefaultCategory = () => {
-  return { name: 'Uncategorized' };
+  return { name: defaultCategoryName };
 };
 
 export const getDefaultBank = (firstName, lastName) => {
@@ -17,14 +22,14 @@ export const getDefaultBank = (firstName, lastName) => {
     institutionID: 'BUDGETLY',
     name: 'Budgetly',
     metaData: {
-      logo: frontendBaseUrl + '/images/budgetly_dark.png',
+      logo: frontendBaseUrl + '/images/budgetly_logo.png',
     },
     bankaccounts: [
       {
-        name: 'Cash',
+        name: defaultAccountName,
         metaData: {
           iban: '-',
-          product: 'Default Account',
+          product: 'Cash',
           owner: firstName + ' ' + lastName,
           currency: TransactionCurrency.EUR,
         },

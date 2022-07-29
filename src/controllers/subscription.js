@@ -190,10 +190,6 @@ const handleWebhook = async (req, res) => {
             }
           );
 
-          console.log(
-            'Default payment method set for subscription:' +
-              payment_intent.payment_method
-          );
           // Update the user's subscription plan in our database
           const paymentSuccessUser = await UserModel.findOneAndUpdate(
             {
