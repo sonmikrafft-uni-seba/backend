@@ -282,6 +282,36 @@ const updateMany = async (req, res) => {
   }
 };
 
+const deleteMany = async (req, res) => {
+  try {
+    let user = await UserModel.findById(req.params.userId).exec();
+    // check if user with the given id exists
+    if (!user) {
+      return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
+        error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
+        message: HTTP_ERROR_RESPONSE.USER_NOT_FOUND,
+      });
+    }
+    let deletedResult = TransactionModel.deleteMany({
+      bankAccountID: req.body.accountId,
+    }).exec();
+
+    if (!deletedResult) {
+      return res.status(HTTP_ERROR_TYPE_NUMBER.NOT_FOUND).json({
+        error: HTTP_ERROR_TYPE.USER_NOT_FOUND,
+        message: 'Transactions not found',
+      });
+    }
+    return res.status(HTTP_ERROR_TYPE_NUMBER.SUCCESS).json({ deletedResult });
+  } catch (err) {
+    console.log(err);
+    return res.status(HTTP_ERROR_TYPE_NUMBER.INTERNAL_SERVER_ERROR).json({
+      error: HTTP_ERROR_TYPE.INTERNAL_SERVER_ERROR,
+      message: HTTP_ERROR_RESPONSE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
 /**
  * Delete a transaction in database for a specific userId
  */
@@ -348,6 +378,7 @@ export default {
   read,
   update,
   updateMany,
+  deleteMany,
   remove,
   list,
 };

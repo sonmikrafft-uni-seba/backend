@@ -33,6 +33,7 @@ const HTTP_ERROR_RESPONSE = {
   USER_ALREADY_EXISTS: 'A user with this email already exists.',
   USER_CREDS_WRONG: 'The email or password is wrong.',
   USER_NOT_FOUND: 'A user with this ID could not be found',
+  USER_EMAIL_NOT_FOUND: 'Email or password are wrong',
   TRANSACTION_NOT_FOUND: 'A transaction with this ID could not be found',
   INTERNAL_SERVER_ERROR: 'Internal Server Error.',
 };

@@ -5,7 +5,7 @@ const port = process.env.PORT || '3001';
 const mongoURI =
   process.env.MONGODB_URI || 'mongodb://localhost:27017/budgetly';
 const jwtSecret = process.env.JWT_SECRET || 'budgetly';
-const jwtLifeTime = process.env.JWT_LIFE_TIME || 86400; // 24h
+const jwtLifeTime = 86400 * 30; // 24h * 30 Tage
 const stripePublicKey =
   process.env.STRIPE_PUBLIC_KEY ||
   'pk_test_51LGILDLQApau8IOPIJbVZ0ry8xXs2z7b6NCwk9x3u0SA6byGKa6craVKnmADMUB7D4qashBkqAEFLHVc2sSuePOx008p2yiMME';
